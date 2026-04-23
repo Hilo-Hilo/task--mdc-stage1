@@ -92,34 +92,23 @@ Compute these source-only features of the product side:
   - `m-v` if it is `(product * variable)`
   - `m-m` if both top children are products
 
-Worked examples:
-- `x = y*((z*x)*z)`
-  product side uses variables `{x,y,z}`, so `rhsVars=3`
-  product-side counts are `x:1, y:1, z:2`, so `rhsTotals=112`
-  leftmost is `y`, rightmost is `z`, so `Lx=FALSE`, `Rx=FALSE`
-  at the top split `y * ((z*x)*z)`, the variable `x` occurs only on the RIGHT, so `xTop=right`
-  `topShape=v-m`
-- `x = ((y*(x*x))*z)*w`
-  product side has `rhsVars=4`, and neither leftmost nor rightmost variable is `x`
-- `x = x*(y*((x*z)*y))`
-  product-side counts are `x:2, y:2, z:1`, so `rhsTotals=122`
-  at the top split `x * (y*((x*z)*y))`, the variable `x` occurs in BOTH top children, so `xTop=both`
+Worked example: for `x = y*((z*x)*z)`, product side uses `{x,y,z}` so `rhsVars=3`; counts `x:1, y:1, z:2` → `rhsTotals=112`; leftmost `y`, rightmost `z` → `Lx=FALSE, Rx=FALSE`; at top split `y * ((z*x)*z)`, `x` occurs only on the RIGHT → `xTop=right`; `topShape=v-m`. Another: `x = x*(y*((x*z)*y))` has counts `x:2, y:2, z:1` → `rhsTotals=122`, `xTop=both` (x in both top children).
 
 If any contradiction motif matches, answer TRUE immediately:
-- C1: if `rhsVars(A)=4` and `Lx(A)=FALSE` and `Rx(A)=FALSE`, answer TRUE
-- C2: if the product side has exactly three variables with counts `3,1,1`, and `Lx(A)=FALSE` and `Rx(A)=FALSE`, answer TRUE
-- C3: if `Lx(A)=FALSE` and `xTop(A)=left` and `square(A)=TRUE` and `topShape(A)=m-v`, answer TRUE
-- C4: if the product side has exactly three variables with counts `2,1,1`, and `Lx(A)=FALSE` and `Rx(A)=FALSE` and `xTop(A)=right` and `topShape(A)=v-m`, answer TRUE
-- C5: if the product side has exactly four variables with counts `2,1,1,1`, and `Lx(A)=FALSE` and `Rx(A)=FALSE` and `xTop(A)=right` and `topShape(A)=v-m`, answer TRUE
-- C6: if `rhsVars(A)=3` and `xTop(A)=right` and `topShape(A)=v-m` and the product side contains exactly two occurrences of `x`, answer TRUE
-- C7: if `rhsVars(A)=3` and `Lx(A)=FALSE` and `Rx(A)=FALSE` and `xTop(A)=left` and `topShape(A)=m-v` and the product side contains exactly two occurrences of `x`, answer TRUE
-- C8: if `rhsVars(A)=3` and `Lx(A)=TRUE` and `xTop(A)=left` and `topShape(A)=m-v`, answer TRUE
-- C9: if the product side has exactly three variables with counts `2,2,1`, and `Lx(A)=TRUE` and `Rx(A)=FALSE` and `xTop(A)=both` and `topShape(A)=v-m`, answer TRUE
-- C10: if the product side has exactly three variables with counts `2,2,1`, and `Lx(A)=FALSE` and `Rx(A)=TRUE` and the product side contains exactly two occurrences of `x`, answer TRUE
-- C11: if the product side has exactly three variables with counts `3,1,1`, and `Lx(A)=FALSE` and `Rx(A)=FALSE` and `xTop(A)=right` and `topShape(A)=v-m`, answer TRUE
-- C12: if the product side has exactly three variables with counts `3,1,1`, and `Lx(A)=FALSE` and `Rx(A)=FALSE` and `xTop(A)=left` and `topShape(A)=m-v`, answer TRUE
-- C13: if the product side has exactly four variables with counts `2,1,1,1`, and `Lx(A)=FALSE` and `Rx(A)=TRUE`, answer TRUE
-- C14: if B is bare, and the product side has exactly three variables with counts `3,1,1`, and `Rx(A)=TRUE` and `square(A)=FALSE`, answer TRUE
+- C1: `rhsVars(A)=4`, `Lx(A)=FALSE`, `Rx(A)=FALSE`
+- C2: counts `3,1,1`, `Lx(A)=FALSE`, `Rx(A)=FALSE`
+- C3: `Lx(A)=FALSE`, `xTop(A)=left`, `square(A)=TRUE`, `topShape(A)=m-v`
+- C4: counts `2,1,1`, `Lx(A)=FALSE`, `Rx(A)=FALSE`, `xTop(A)=right`, `topShape(A)=v-m`
+- C5: counts `2,1,1,1`, `Lx(A)=FALSE`, `Rx(A)=FALSE`, `xTop(A)=right`, `topShape(A)=v-m`
+- C6: `rhsVars(A)=3`, `xTop(A)=right`, `topShape(A)=v-m`, exactly two `x` occurrences
+- C7: `rhsVars(A)=3`, `Lx(A)=FALSE`, `Rx(A)=FALSE`, `xTop(A)=left`, `topShape(A)=m-v`, exactly two `x` occurrences
+- C8: `rhsVars(A)=3`, `Lx(A)=TRUE`, `xTop(A)=left`, `topShape(A)=m-v`
+- C9: counts `2,2,1`, `Lx(A)=TRUE`, `Rx(A)=FALSE`, `xTop(A)=both`, `topShape(A)=v-m`
+- C10: counts `2,2,1`, `Lx(A)=FALSE`, `Rx(A)=TRUE`, exactly two `x` occurrences
+- C11: counts `3,1,1`, `Lx(A)=FALSE`, `Rx(A)=FALSE`, `xTop(A)=right`, `topShape(A)=v-m`
+- C12: counts `3,1,1`, `Lx(A)=FALSE`, `Rx(A)=FALSE`, `xTop(A)=left`, `topShape(A)=m-v`
+- C13: counts `2,1,1,1`, `Lx(A)=FALSE`, `Rx(A)=TRUE`
+- C14: B is bare, counts `3,1,1`, `Rx(A)=TRUE`, `square(A)=FALSE`
 
 STEP 1: COMPUTE FEATURES EXACTLY
 
